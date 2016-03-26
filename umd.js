@@ -255,17 +255,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var min = (function () {
-	      var imageSize =
-	        state.original.width > state.original.height
-	          ? state.original.width
-	          : state.original.height
+	      var widthDiff = Math.abs(state.container.width - state.original.width)
+	      var heightDiff = Math.abs(state.container.height - state.original.height)
 
-	      var containerSize =
-	        state.container.width > state.container.height
-	          ? state.container.width
-	          : state.container.height
+	      if (widthDiff > heightDiff) {
+	        return state.container.width / state.original.width
+	      }
 
-	      return containerSize / imageSize
+	      return state.container.height / state.original.height
 	    })()
 
 	    return Math.max(zoom, min)
