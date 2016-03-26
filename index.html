@@ -1,0 +1,40 @@
+<div id="cropper" style="margin: 80px;">
+  <img alt="">
+</div>
+
+<button id="zoom">+</button>
+<button id="unzoom">-</button>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #cropper {
+    position: relative;
+    width: 200px;
+    height: 400px;
+    background: pink;
+    overflow: hidden;
+  }
+</style>
+
+<script src="umd.js"></script>
+<script>
+  var instance = rogneur(document.querySelector('img'))
+  instance.load('https://placehold.it/80x140')
+
+  document.getElementById('zoom').addEventListener('click', function () {
+    var state = instance.getState()
+    instance.setState({ zoom: state.zoom + 0.2 })
+  })
+
+  document.getElementById('unzoom').addEventListener('click', function () {
+    var state = instance.getState()
+    instance.setState({ zoom: state.zoom - 0.2 })
+  })
+</script>

@@ -1,0 +1,23 @@
+{
+  "name": "rogneur",
+  "version": "0.0.0",
+  "description": "Simple low level and opinionated cropper library.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard",
+    "dev": "webpack --watch --progress --colors",
+    "build": "webpack"
+  },
+  "standard": {
+    "ignore": [
+      "umd.js"
+    ]
+  },
+  "author": "Gabin Aureche <hello@gabinaureche.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "6.0.8",
+    "webpack": "1.12.14"
+  },
+  "dependencies": {}
+}
