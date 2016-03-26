@@ -38,7 +38,7 @@
   /**
    * Creates a rogneur instance based on image.
    * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
-   * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+   * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
    */
   function rogneur (container) {
     var dragging = null
@@ -121,11 +121,13 @@
           height: target.naturalHeight
         }
       })
+
+      move('center')
     }
 
     /**
      * Update the image's position and scale.
-     * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function update () {
       var realWidth = state.original.width * state.zoom
@@ -150,7 +152,7 @@
     /**
      * Load an image.
      * @param {String} url - Whatever's suitable for an img.src attribute.
-     * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function load (url) {
       // emptying the original's size is a way
@@ -236,10 +238,41 @@
     }
 
     /**
+     * Move the image to given position, e.g "center".
+     * @param {String} where - Position's name.
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     */
+    function move (where) {
+      // setting the zoom to a value that's too
+      // low will cause it to be set to its lowest
+      // possible value to fit its container
+      setState({
+        zoom: 0
+      })
+
+      var realWidth = state.original.width * state.zoom
+      var realHeight = state.original.height * state.zoom
+
+      if (where === 'center') {
+        var widthOverflow = state.container.width - realWidth
+        var heightOverflow = state.container.height - realHeight
+
+        setState({
+          position: {
+            x: widthOverflow / 2,
+            y: heightOverflow / 2
+          }
+        })
+      }
+
+      return this
+    }
+
+    /**
      * Update the state, ensure the values respect
      * the min/max rules and persist it to the view.
      * @param {Object} newState
-     * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function setState (newState) {
       applyState(newState)
@@ -267,7 +300,7 @@
      * e.g updating the image's position needs some calculation that is done by its handler.
      * Also calls update to apply the changes to the image.
      * @param {Object} newState
-     * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function applyState (newState) {
       for (var key in newState) {
@@ -295,6 +328,7 @@
     }
 
     return {
+      move: move,
       load: load,
       updateContainerSize: updateContainerSize,
       setState: setState,
