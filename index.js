@@ -87,15 +87,14 @@ function rogneur (container) {
    * @param {Event} event
    */
   function onload (event) {
-    // using getBoundingClientRect to get the image's real size
-    // in the browser and not its natural size or whatever
-    //
-    // that been said, setting the image's size to anything else
-    // that its "natural" one is a terrible idea as
-    // it would make it really hard to crop on the server
     var target = event.path[0]
-    var rect = target.getBoundingClientRect()
-    setState({ original: { width: rect.width, height: rect.height } })
+
+    setState({
+      original: {
+        width: target.naturalWidth,
+        height: target.naturalHeight
+      }
+    })
   }
 
   /**
