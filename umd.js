@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Creates a rogneur instance based on image.
-	 * @param {HTMLImageElement} image - An image element without a src attribute.
+	 * @param {HTMLElement} image - An image element without a src attribute.
 	 * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
 	 */
 	function rogneur (image) {
@@ -95,7 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  image.style.position = 'absolute'
 	  image.style.top = '0'
 	  image.style.left = '0'
-	  image.style.transformOrigin = '50% 50% 0'
+	  image.style.transformOrigin = '0 0 0'
 
 	  document.addEventListener('mousemove', onmousemove)
 	  document.addEventListener('mouseup', onmouseup)
@@ -235,10 +235,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var realSize = originalSize * state.zoom
 	    var overflow = Math.max(realSize - containerSize, 0)
 
-	    var lowestValue = (realSize - originalSize) / 2
+	    var lowestValue = 0
 	    var min = lowestValue - overflow
 
-	    var highestValue = (containerSize + lowestValue) - realSize
+	    var highestValue = containerSize - realSize
 	    var max = highestValue + overflow
 
 	    return clamp(pos, min, max)

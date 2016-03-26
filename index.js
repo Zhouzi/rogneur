@@ -39,7 +39,7 @@ function rogneur (image) {
   image.style.position = 'absolute'
   image.style.top = '0'
   image.style.left = '0'
-  image.style.transformOrigin = '50% 50% 0'
+  image.style.transformOrigin = '0 0 0'
 
   document.addEventListener('mousemove', onmousemove)
   document.addEventListener('mouseup', onmouseup)
@@ -179,10 +179,10 @@ function rogneur (image) {
     var realSize = originalSize * state.zoom
     var overflow = Math.max(realSize - containerSize, 0)
 
-    var lowestValue = (realSize - originalSize) / 2
+    var lowestValue = 0
     var min = lowestValue - overflow
 
-    var highestValue = (containerSize + lowestValue) - realSize
+    var highestValue = containerSize - realSize
     var max = highestValue + overflow
 
     return clamp(pos, min, max)
