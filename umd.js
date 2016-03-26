@@ -66,6 +66,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * Rounds number with given number of decimals.
+	 * Note: this function is far from being bullet proof and would
+	 * break in certain circumstances. It's just enough for rogneur
+	 * but be careful when reusing it.
+	 * @param {Number} num
+	 * @param {Number} decimals
+	 * @returns {number}
+	 */
+	function round (num, decimals) {
+	  return Math.round(num * decimals) / decimals
+	}
+
+	/**
 	 * Creates a rogneur instance based on image.
 	 * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
 	 * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
@@ -262,7 +275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return state.container.height / state.original.height
 	    })()
 
-	    return Math.max(zoom, min)
+	    return Math.max(round(zoom, 10), round(min, 10))
 	  }
 
 	  /**
