@@ -202,15 +202,36 @@
      */
     function calcPos (pos, originalSize, containerSize) {
       var realSize = originalSize * state.zoom
-      var overflow = Math.max(realSize - containerSize, 0)
-
-      var lowestValue = 0
-      var min = lowestValue - overflow
-
-      var highestValue = containerSize - realSize
-      var max = highestValue + overflow
+      var min = lowestPos(realSize, containerSize)
+      var max = highestPos(realSize, containerSize)
 
       return clamp(pos, min, max)
+    }
+
+    /**
+     * Returns the lowest possible position.
+     * @param {Number} realSize
+     * @param {Number} containerSize
+     * @returns {number}
+     */
+    function lowestPos (realSize, containerSize) {
+      var overflow = Math.max(realSize - containerSize, 0)
+      var lowestValue = 0
+
+      return lowestValue - overflow
+    }
+
+    /**
+     * Returns the highest possible position.
+     * @param {Number} realSize
+     * @param {Number} containerSize
+     * @returns {number}
+     */
+    function highestPos (realSize, containerSize) {
+      var overflow = Math.max(realSize - containerSize, 0)
+      var highestValue = containerSize - realSize
+
+      return highestValue + overflow
     }
 
     /**
@@ -254,13 +275,10 @@
       var realHeight = state.original.height * state.zoom
 
       if (where === 'center') {
-        var widthOverflow = state.container.width - realWidth
-        var heightOverflow = state.container.height - realHeight
-
         setState({
           position: {
-            x: widthOverflow / 2,
-            y: heightOverflow / 2
+            x: lowestPos(realWidth, state.container.width) / 2,
+            y: lowestPos(realHeight, state.container.height) / 2
           }
         })
       }
