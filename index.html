@@ -1,6 +1,4 @@
-<div id="cropper" style="margin: 80px;">
-  <img alt="">
-</div>
+<div id="rogneur"></div>
 
 <button id="zoom">+</button>
 <button id="unzoom">-</button>
@@ -14,18 +12,22 @@
     padding: 0;
   }
 
-  #cropper {
+  #rogneur {
     position: relative;
     width: 200px;
     height: 400px;
     background: pink;
-    overflow: hidden;
+    margin: 80px;
+  }
+
+  #rogneur img {
+    opacity: 0.4;
   }
 </style>
 
 <script src="umd.js"></script>
 <script>
-  var instance = rogneur(document.querySelector('img'))
+  var instance = rogneur(document.getElementById('rogneur'))
   instance.load('https://placehold.it/80x140')
 
   document.getElementById('zoom').addEventListener('click', function () {

@@ -67,30 +67,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Creates a rogneur instance based on image.
-	 * @param {HTMLElement} image - An image element without a src attribute.
+	 * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
 	 * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
 	 */
-	function rogneur (image) {
-	  var container = (function (parent) {
-	    while (parent) {
-	      if (window.getComputedStyle(parent).position !== 'static') {
-	        return parent
-	      }
-
-	      parent = parent.parentElement
-	    }
-
-	    return null
-	  })(image.parentElement)
-
-	  if (container == null) {
-	    console.error('rogneur needs a parent to have a position other than static')
-	    return
-	  }
-
+	function rogneur (container) {
 	  var dragging = null
 	  var state = { position: { x: 0, y: 0 }, original: {}, container: {}, zoom: 1 }
 	  var stateHandlers = { position: getPosition, zoom: getZoom }
+	  var image = document.createElement('img')
+
+	  if (window.getComputedStyle(container).position === 'static') {
+	    container.style.position = 'relative'
+	  }
+
+	  container.appendChild(image)
+	  container.style.backgroundRepeat = 'no-repeat'
 
 	  image.style.position = 'absolute'
 	  image.style.top = '0'
@@ -168,6 +159,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {{load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
 	   */
 	  function update () {
+	    var realWidth = state.original.width * state.zoom
+	    var realheight = state.original.height * state.zoom
+
+	    container.style.backgroundSize = realWidth + 'px ' + realheight + 'px '
+	    container.style.backgroundPosition = state.position.x + 'px ' + state.position.y + 'px'
+
 	    image.style.transform = [
 	      'translate(',
 	        state.position.x, 'px, ',
@@ -191,6 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // to prevent unnecessary updates
 	    state.original = {}
 	    image.src = url
+	    container.style.backgroundImage = 'url(' + url + ')'
 
 	    return this
 	  }
