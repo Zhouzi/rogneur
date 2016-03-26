@@ -245,14 +245,9 @@
       }
 
       var min = (function () {
-        var widthDiff = Math.abs(state.container.width - state.original.width)
-        var heightDiff = Math.abs(state.container.height - state.original.height)
-
-        if (widthDiff > heightDiff) {
-          return state.container.width / state.original.width
-        }
-
-        return state.container.height / state.original.height
+        var widthRatio = state.container.width / state.original.width
+        var heightRatio = state.container.height / state.original.height
+        return Math.max(widthRatio, heightRatio)
       })()
 
       return Math.max(round(zoom, 10), round(min, 10))
