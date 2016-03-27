@@ -27,7 +27,7 @@
   /**
    * Rounds number to upper with two decimals.
    * @param {Number} num
-   * @returns {number}
+   * @returns {Number}
    */
   function round (num) {
     return Math.ceil(num * 100) / 100
@@ -234,7 +234,7 @@
      * Returns the lowest possible position.
      * @param {Number} realSize
      * @param {Number} containerSize
-     * @returns {number}
+     * @returns {Number}
      */
     function lowestPos (realSize, containerSize) {
       var overflow = Math.max(realSize - containerSize, 0)
@@ -247,7 +247,7 @@
      * Returns the highest possible position.
      * @param {Number} realSize
      * @param {Number} containerSize
-     * @returns {number}
+     * @returns {Number}
      */
     function highestPos (realSize, containerSize) {
       var overflow = Math.max(realSize - containerSize, 0)
@@ -259,7 +259,7 @@
     /**
      * Returns the zoom respecting the min value.
      * @param {Number} zoom
-     * @returns {number}
+     * @returns {Number}
      */
     function getZoom (zoom) {
       if (state.loading) {
