@@ -36,7 +36,7 @@
   /**
    * Creates a rogneur instance based on image.
    * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
-   * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+   * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
    */
   function rogneur (container) {
     var state = {
@@ -148,7 +148,7 @@
 
     /**
      * Update the image's position and scale.
-     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function update () {
       var realWidth = state.original.width * state.zoom
@@ -173,7 +173,7 @@
     /**
      * Load an image.
      * @param {String} url - Whatever's suitable for an img.src attribute.
-     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function load (url) {
       loader.src = url
@@ -278,7 +278,7 @@
     /**
      * Move the image to given position, e.g "center".
      * @param {String} where - Position's name.
-     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function move (where) {
       // setting the zoom to a value that's too
@@ -326,7 +326,7 @@
      * Update the state, ensure the values respect
      * the min/max rules and persist it to the view.
      * @param {Object} newState
-     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function setState (newState) {
       applyState(newState)
@@ -354,7 +354,7 @@
      * e.g updating the image's position needs some calculation that is done by its handler.
      * Also calls update to apply the changes to the image.
      * @param {Object} newState
-     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function applyState (newState) {
       for (var key in newState) {
@@ -375,7 +375,7 @@
 
     /**
      * Returns the state.
-     * @returns {{position: {x: Number, y: Number}, original: {width: Number, height: Number}, container: {width: Number, height: Number}, zoom: Number}}
+     * @returns {{position: {x: Number, y: Number}, original: {width: Number, height: Number}, container: {width: Number, height: Number}, zoom: Number, loading: Boolean}}
      */
     function getState () {
       return state
