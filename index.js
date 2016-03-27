@@ -25,16 +25,12 @@
   }
 
   /**
-   * Rounds number with given number of decimals.
-   * Note: this function is far from being bullet proof and would
-   * break in certain circumstances. It's just enough for rogneur
-   * but be careful when reusing it.
+   * Rounds number to upper with two decimals.
    * @param {Number} num
-   * @param {Number} decimals
    * @returns {number}
    */
-  function round (num, decimals) {
-    return Math.round(num * decimals) / decimals
+  function round (num) {
+    return Math.ceil(num * 100) / 100
   }
 
   /**
@@ -276,7 +272,7 @@
         return Math.max(widthRatio, heightRatio)
       })()
 
-      return Math.max(round(zoom, 10), round(min, 10))
+      return Math.max(round(zoom), round(min))
     }
 
     /**
