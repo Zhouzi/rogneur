@@ -42,7 +42,7 @@
    */
   function rogneur (container) {
     var dragging = null
-    var state = { position: { x: 0, y: 0 }, original: {}, container: {}, zoom: 1 }
+    var state = { position: { x: 0, y: 0 }, original: {}, container: {}, zoom: 1, src: null }
     var stateHandlers = { position: getPosition, zoom: getZoom }
     var loader = document.createElement('img')
     var image = document.createElement('img')
@@ -116,14 +116,16 @@
      */
     function onload (event) {
       var target = event.path[0]
+      var width = target.naturalWidth
+      var height = target.naturalHeight
 
-      image.src = target.src
-      container.style.backgroundImage = 'url(' + target.src + ')'
+      image.src = state.src
+      container.style.backgroundImage = 'url(' + state.src + ')'
 
       setState({
         original: {
-          width: target.naturalWidth,
-          height: target.naturalHeight
+          width: width,
+          height: height
         }
       })
 
@@ -160,10 +162,12 @@
      * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function load (url) {
-      // emptying the original's size is a way
-      // to prevent unnecessary updates
-      state.original = {}
       loader.src = url
+
+      setState({
+        src: url,
+        original: {}
+      })
 
       return this
     }
