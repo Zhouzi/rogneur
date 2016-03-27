@@ -38,11 +38,27 @@
   /**
    * Creates a rogneur instance based on image.
    * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
-   * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+   * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
    */
   function rogneur (container) {
+    var state = {
+      position: {
+        x: 0,
+        y: 0
+      },
+      original: {},
+      container: {},
+      zoom: 1,
+      src: null
+    }
+
+    Object.defineProperty(state, 'loading', {
+      get: function getLoading () {
+        return !state.original.width || !state.original.height
+      }
+    })
+
     var dragging = null
-    var state = { position: { x: 0, y: 0 }, original: {}, container: {}, zoom: 1, src: null }
     var stateHandlers = { position: getPosition, zoom: getZoom }
     var loader = document.createElement('img')
     var image = document.createElement('img')
@@ -134,7 +150,7 @@
 
     /**
      * Update the image's position and scale.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function update () {
       var realWidth = state.original.width * state.zoom
@@ -159,7 +175,7 @@
     /**
      * Load an image.
      * @param {String} url - Whatever's suitable for an img.src attribute.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function load (url) {
       loader.src = url
@@ -190,7 +206,7 @@
      * @returns {{x: Number, y: Number}}
      */
     function getPosition (pos) {
-      if (!state.original.width || !state.original.height) {
+      if (state.loading) {
         return pos
       }
 
@@ -248,7 +264,7 @@
      * @returns {number}
      */
     function getZoom (zoom) {
-      if (!state.original.width || !state.original.height) {
+      if (state.loading) {
         return zoom
       }
 
@@ -264,7 +280,7 @@
     /**
      * Move the image to given position, e.g "center".
      * @param {String} where - Position's name.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function move (where) {
       // setting the zoom to a value that's too
@@ -293,7 +309,7 @@
      * Update the state, ensure the values respect
      * the min/max rules and persist it to the view.
      * @param {Object} newState
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function setState (newState) {
       applyState(newState)
@@ -321,7 +337,7 @@
      * e.g updating the image's position needs some calculation that is done by its handler.
      * Also calls update to apply the changes to the image.
      * @param {Object} newState
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
+     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function applyState (newState) {
       for (var key in newState) {
