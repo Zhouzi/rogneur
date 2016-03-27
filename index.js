@@ -1,3 +1,5 @@
+/* global define */
+
 (function (root, factory) {
   if (typeof exports === 'object' && typeof module === 'object') {
     module.exports = factory()
