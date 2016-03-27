@@ -44,6 +44,7 @@
     var dragging = null
     var state = { position: { x: 0, y: 0 }, original: {}, container: {}, zoom: 1 }
     var stateHandlers = { position: getPosition, zoom: getZoom }
+    var loader = document.createElement('img')
     var image = document.createElement('img')
 
     if (window.getComputedStyle(container).position === 'static') {
@@ -61,9 +62,10 @@
     document.addEventListener('mousemove', onmousemove)
     document.addEventListener('mouseup', onmouseup)
 
+    loader.addEventListener('load', onload)
+
     image.setAttribute('draggable', 'false')
     image.addEventListener('mousedown', onmousedown)
-    image.addEventListener('load', onload)
 
     updateContainerSize()
 
@@ -115,6 +117,9 @@
     function onload (event) {
       var target = event.path[0]
 
+      image.src = target.src
+      container.style.backgroundImage = 'url(' + target.src + ')'
+
       setState({
         original: {
           width: target.naturalWidth,
@@ -158,8 +163,7 @@
       // emptying the original's size is a way
       // to prevent unnecessary updates
       state.original = {}
-      image.src = url
-      container.style.backgroundImage = 'url(' + url + ')'
+      loader.src = url
 
       return this
     }
