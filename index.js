@@ -36,7 +36,7 @@
   /**
    * Creates a rogneur instance based on image.
    * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
-   * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+   * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
    */
   function rogneur (container) {
     var state = {
@@ -148,7 +148,7 @@
 
     /**
      * Update the image's position and scale.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function update () {
       var realWidth = state.original.width * state.zoom
@@ -173,7 +173,7 @@
     /**
      * Load an image.
      * @param {String} url - Whatever's suitable for an img.src attribute.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function load (url) {
       loader.src = url
@@ -278,7 +278,7 @@
     /**
      * Move the image to given position, e.g "center".
      * @param {String} where - Position's name.
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function move (where) {
       // setting the zoom to a value that's too
@@ -304,10 +304,29 @@
     }
 
     /**
+     * Uses HTML5's canvas to crop the image, resulting in data URI.
+     * @returns {String}
+     */
+    function crop () {
+      var canvas = document.createElement('canvas')
+
+      canvas.setAttribute('width', state.container.width)
+      canvas.setAttribute('height', state.container.height)
+
+      var realWidth = state.original.width * state.zoom
+      var realHeight = state.original.height * state.zoom
+      var context = canvas.getContext('2d')
+
+      context.drawImage(image, state.position.x, state.position.y, realWidth, realHeight)
+
+      return canvas.toDataURL('image/png')
+    }
+
+    /**
      * Update the state, ensure the values respect
      * the min/max rules and persist it to the view.
      * @param {Object} newState
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function setState (newState) {
       applyState(newState)
@@ -335,7 +354,7 @@
      * e.g updating the image's position needs some calculation that is done by its handler.
      * Also calls update to apply the changes to the image.
      * @param {Object} newState
-     * @returns {{move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState, loading: Boolean}}
      */
     function applyState (newState) {
       for (var key in newState) {
@@ -363,6 +382,7 @@
     }
 
     return {
+      crop: crop,
       move: move,
       load: load,
       updateContainerSize: updateContainerSize,
