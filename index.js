@@ -25,15 +25,6 @@
   }
 
   /**
-   * Rounds number to upper with two decimals.
-   * @param {Number} num
-   * @returns {Number}
-   */
-  function round (num) {
-    return Math.ceil(num * 100) / 100
-  }
-
-  /**
    * Creates a rogneur instance based on image.
    * @param {HTMLElement} container - The element to bind rogneur to (requires a non-static position).
    * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
@@ -276,7 +267,7 @@
         return Math.max(widthRatio, heightRatio)
       })()
 
-      return Math.max(round(zoom), round(min))
+      return Math.max(zoom, min)
     }
 
     /**
