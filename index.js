@@ -71,7 +71,10 @@
     image.style.position = 'absolute'
     image.style.top = '0'
     image.style.left = '0'
-    image.style.transformOrigin = '0 0 0'
+    image.style.msTransformOrigin
+      = image.style.webkitTransformOrigin
+      = image.style.transformOrigin
+      = '0 0 0'
 
     document.addEventListener('mousemove', onmousemove)
     document.addEventListener('mouseup', onmouseup)
@@ -157,15 +160,16 @@
       container.style.backgroundSize = realWidth + 'px ' + realheight + 'px '
       container.style.backgroundPosition = state.position.x + 'px ' + state.position.y + 'px'
 
-      image.style.transform = [
-        'translate(',
-          state.position.x, 'px, ',
-          state.position.y, 'px',
-        ') ',
-        'scale(',
-          state.zoom,
-        ')'
-      ].join('')
+      image.style.msTransform
+        = image.style.webkitTransform
+        = image.style.transform
+        = 'translate(' +
+            state.position.x + 'px, ' +
+            state.position.y + 'px' +
+          ') ' +
+          'scale(' +
+            state.zoom +
+          ')'
 
       return this
     }
