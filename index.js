@@ -47,6 +47,7 @@
       }
     })
 
+    var pendingMovement = null
     var dragging = null
     var stateHandlers = { position: getPosition, zoom: getZoom }
     var loader = document.createElement('img')
@@ -137,7 +138,9 @@
         }
       })
 
-      move('center')
+      if (pendingMovement) {
+        move(pendingMovement)
+      }
     }
 
     /**
@@ -276,6 +279,13 @@
      * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, setState: setState, getState: getState}}
      */
     function move (where) {
+      if (state.loading) {
+        pendingMovement = where
+        return this
+      }
+
+      pendingMovement = null
+
       // setting the zoom to a value that's too
       // low will cause it to be set to its lowest
       // possible value to fit its container

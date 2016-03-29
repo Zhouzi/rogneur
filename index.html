@@ -29,7 +29,10 @@
 <script src="index.js"></script>
 <script>
   var instance = rogneur(document.getElementById('rogneur'))
-  instance.load('https://placehold.it/80x140')
+
+  instance
+    .load('https://placehold.it/80x140')
+    .move('center')
 
   document.getElementById('zoom').addEventListener('click', function () {
     var state = instance.getState()
