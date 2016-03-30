@@ -41,9 +41,53 @@
       src: null
     }
 
-    Object.defineProperty(state, 'loading', {
-      get: function getLoading () {
-        return !state.original.width || !state.original.height
+    Object.defineProperties(state, {
+      loading: {
+        get: function getLoading () {
+          return !state.original.width || !state.original.height
+        },
+        enumerable: true
+      },
+
+      minZoom: {
+        get: function minZoom () {
+          var widthRatio = state.container.width / state.original.width
+          var heightRatio = state.container.height / state.original.height
+          return Math.max(widthRatio, heightRatio)
+        },
+        enumerable: true
+      },
+
+      minX: {
+        get: function minX () {
+          var realSize = state.original.width * state.zoom
+          return lowestPos(realSize, state.container.width)
+        },
+        enumerable: true
+      },
+
+      maxX: {
+        get: function maxX () {
+          var realSize = state.original.width * state.zoom
+          return highestPos(realSize, state.container.width)
+        },
+        enumerable: true
+      },
+
+      minY: {
+        get: function minY () {
+          var realSize = state.original.height * state.zoom
+          return lowestPos(realSize, state.container.height)
+        },
+        enumerable: true
+      },
+
+      maxY: {
+        get: function maxY () {
+          var realSize = state.original.height * state.zoom
+          return highestPos(realSize, state.container.height)
+        },
+        enumerable: true
       }
     })
 
@@ -207,25 +251,9 @@
       }
 
       return {
-        x: calcPos(pos.x, state.original.width, state.container.width),
-        y: calcPos(pos.y, state.original.height, state.container.height)
+        x: clamp(pos.x, state.minX, state.maxX),
+        y: clamp(pos.y, state.minY, state.maxY)
       }
-    }
-
-    /**
-     * Takes into account the fact that the image scales from the center.
-     * Also clamps the value to the min and max possible values.
-     * @param {Number} pos
-     * @param {Number} originalSize
-     * @param {Number} containerSize
-     * @returns {Number}
-     */
-    function calcPos (pos, originalSize, containerSize) {
-      var realSize = originalSize * state.zoom
-      var min = lowestPos(realSize, containerSize)
-      var max = highestPos(realSize, containerSize)
-
-      return clamp(pos, min, max)
     }
 
     /**
@@ -264,13 +292,7 @@
         return zoom
       }
 
-      var min = (function () {
-        var widthRatio = state.container.width / state.original.width
-        var heightRatio = state.container.height / state.original.height
-        return Math.max(widthRatio, heightRatio)
-      })()
-
-      return Math.max(zoom, min)
+      return Math.max(zoom, state.minZoom)
     }
 
     /**
@@ -380,7 +402,7 @@
 
     /**
      * Returns the state.
-     * @returns {{position: {x: Number, y: Number}, original: {width: Number, height: Number}, container: {width: Number, height: Number}, zoom: Number, loading: Boolean}}
+     * @returns {{position: {x: Number, y: Number}, original: {width: Number, height: Number}, container: {width: Number, height: Number}, zoom: Number, loading: Boolean, minZoom: Number, minX: Number, maxX: Number, minY: Number, maxY: Number}}
      */
     function getState () {
       return state
