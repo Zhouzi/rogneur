@@ -31,6 +31,10 @@
   var instance = rogneur(document.getElementById('rogneur'))
 
   instance
+    .subscribe('LOAD_START', console.log.bind(console, 'load started'))
+    .subscribe('LOAD_END', console.log.bind(console, 'load ended'))
+
+  instance
     .load('https://placehold.it/80x140')
     .move('center')
 
