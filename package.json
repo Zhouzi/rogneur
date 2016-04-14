@@ -1,8 +1,14 @@
 {
   "name": "rogneur",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Simple low level and opinionated cropper library.",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "lint": "standard"
   },
@@ -11,6 +17,19 @@
       "umd.js"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zhouzi/rogneur.git"
+  },
+  "keywords": [
+    "cropper",
+    "image",
+    "upload"
+  ],
+  "bugs": {
+    "url": "https://github.com/Zhouzi/rogneur/issues"
+  },
+  "homepage": "https://github.com/Zhouzi/rogneur"
   "author": "Gabin Aureche <hello@gabinaureche.com>",
   "license": "MIT",
   "devDependencies": {
