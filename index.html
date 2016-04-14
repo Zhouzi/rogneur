@@ -1,63 +1,152 @@
-<div id="rogneur"></div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>rogneur - Simple low level and opinionated cropper library</title>
+    <style>
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
 
-<input type="file">
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
 
-<button id="zoom">+</button>
-<button id="unzoom">-</button>
-<button id="submit">submit</button>
+      html {
+        box-sizing: border-box;
+        font-size: 16px;
+      }
 
-<style>
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-  }
+      body {
+        font-size: 1rem;
+        font-family: serif;
+        line-height: 1.4;
+        display: table;
+      }
 
-  #rogneur {
-    position: relative;
-    width: 200px;
-    height: 400px;
-    background: pink;
-    margin: 80px;
-  }
+      .container {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+      }
 
-  #rogneur img {
-    opacity: 0.4;
-  }
-</style>
+      h1,
+      p {
+        margin: 0;
+      }
 
-<script src="index.js"></script>
-<script>
-  var instance = rogneur(document.getElementById('rogneur'))
+      h1 {
+        font-size: 2.8rem;
+      }
 
-  instance
-    .load('https://placehold.it/80x140')
-    .move('center')
+      p {
+        margin-bottom: 20px;
+      }
 
-  document.getElementById('zoom').addEventListener('click', function () {
-    var state = instance.getState()
-    instance.setState({ zoom: state.zoom + 0.1 })
-  })
+      .container-rogneur {
+        padding: 40px 0;
+        overflow: hidden;
+      }
 
-  document.getElementById('unzoom').addEventListener('click', function () {
-    var state = instance.getState()
-    instance.setState({ zoom: state.zoom - 0.1 })
-  })
+      #rogneur {
+        position: relative;
+        width: 400px;
+        height: 240px;
+        margin: 0 auto;
+      }
 
-  document.querySelector('[type=file]').addEventListener('change', function (event) {
-    var file = event.target.files[0]
-    var reader = new FileReader()
+      #rogneur::before {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 1;
+        top: 40px;
+        left: 70px;
+        width: 160px;
+        height: 25px;
+        background-image: url('glasses.png');
+        background-repeat: no-repeat;
+      }
 
-    reader.onload = function (e) {
-      instance.load(e.target.result).move('center')
-    }
+      #rogneur img {
+        opacity: 0.6;
+      }
 
-    reader.readAsDataURL(file)
-  })
+      .container-range {
+        margin-bottom: 10px;
+      }
 
-  document.getElementById('submit').addEventListener('click', function () {
-    var image = document.createElement('img')
-    image.src = instance.crop()
-    document.body.appendChild(image)
-  })
-</script>
+      label {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #dadada;
+        padding: 8px 10px;
+      }
+
+      label input[type=file] {
+        position: absolute;
+        left: -999999999px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="container-rogneur">
+        <div id="rogneur"></div>
+      </div>
+      <h1>rogneur</h1>
+      <p>Simple low level and opinionated cropper library.</p>
+      <div class="container-range">
+        <input type="range" step="0.01">
+      </div>
+      <div class="container-file">
+        <label>
+          Deal with it
+          <input type="file">
+        </label>
+      </div>
+    </div>
+
+    <script src="rogneur.js"></script>
+    <script>
+      var inst = rogneur(document.getElementById('rogneur'));
+      inst.load('example.png').move('center');
+
+      var range = document.querySelector('[type=range]')
+      function updateRangeProps () {
+        setTimeout(function () {
+          var state = inst.getState();
+          range.setAttribute('min', String(state.minZoom));
+          range.setAttribute('max', String(2));
+          range.value = state.zoom;
+        }, 1000);
+      }
+      updateRangeProps();
+
+      range.addEventListener('input', function () {
+        inst.setState({ zoom: Number(range.value) });
+      });
+
+      document.querySelector('[type=file]').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          inst.load(e.target.result).move('center');
+          updateRangeProps();
+        };
+
+        reader.readAsDataURL(file);
+      });
+    </script>
+  </body>
+</html>
