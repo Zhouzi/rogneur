@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/Zhouzi/rogneur/issues"
   },
-  "homepage": "https://github.com/Zhouzi/rogneur"
+  "homepage": "https://github.com/Zhouzi/rogneur",
   "author": "Gabin Aureche <hello@gabinaureche.com>",
   "license": "MIT",
   "devDependencies": {
