@@ -49,7 +49,7 @@
     var reader = new FileReader()
 
     reader.onload = function (e) {
-      instance.load(e.target.result)
+      instance.load(e.target.result).move('center')
     }
 
     reader.readAsDataURL(file)
