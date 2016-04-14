@@ -4,6 +4,6 @@
     "postinstall": "cp ./node_modules/rogneur/index.js rogneur.js"
   },
   "devDependencies": {
-    "rogneur": "0.0.1"
+    "rogneur": "0.0.2"
   }
 }

@@ -119,30 +119,38 @@
     <script src="rogneur.js"></script>
     <script>
       var inst = rogneur(document.getElementById('rogneur'));
-      inst.load('example.png').move('center');
+      var range = document.querySelector('[type=range]');
+      var input = document.querySelector('[type=file]');
 
-      var range = document.querySelector('[type=range]')
-      function updateRangeProps () {
-        setTimeout(function () {
+      inst
+        .subscribe('LOAD_START', function () {
+          range.setAttribute('disabled', 'disabled');
+          input.setAttribute('disabled', 'disabled');
+        })
+        .subscribe('LOAD_END', function () {
+          inst.move('center');
+
           var state = inst.getState();
           range.setAttribute('min', String(state.minZoom));
           range.setAttribute('max', String(2));
           range.value = state.zoom;
-        }, 1000);
-      }
-      updateRangeProps();
+
+          range.removeAttribute('disabled');
+          input.removeAttribute('disabled');
+        });
+
+      inst.load('example.png');
 
       range.addEventListener('input', function () {
         inst.setState({ zoom: Number(range.value) });
       });
 
-      document.querySelector('[type=file]').addEventListener('change', function (event) {
+      input.addEventListener('change', function (event) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onload = function (e) {
-          inst.load(e.target.result).move('center');
-          updateRangeProps();
+          inst.load(e.target.result);
         };
 
         reader.readAsDataURL(file);
