@@ -26,6 +26,7 @@
       }
 
       body {
+        color: #1b1b1b;
         font-size: 1rem;
         font-family: serif;
         line-height: 1.4;
@@ -84,16 +85,24 @@
         margin-bottom: 10px;
       }
 
-      label {
+      .button {
+        color: inherit;
+        text-decoration: none;
         cursor: pointer;
         display: inline-block;
         background-color: #dadada;
         padding: 8px 10px;
       }
 
-      label input[type=file] {
+      .button input[type=file] {
         position: absolute;
         left: -999999999px;
+      }
+
+      .button:focus,
+      .button:hover {
+        color: #fff;
+        background-color: #1b1b1b;
       }
     </style>
   </head>
@@ -109,7 +118,10 @@
         <input type="range" step="0.01">
       </div>
       <div class="container-file">
-        <label>
+        <a href="https://github.com/zhouzi/rogneur" class="button">
+          GitHub Repo
+        </a>
+        <label class="button">
           Deal with it
           <input type="file">
         </label>
@@ -155,6 +167,14 @@
 
         reader.readAsDataURL(file);
       });
+
+      (function () {
+        var link = document.createElement('link')
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('href', 'https://fonts.googleapis.com/css?family=Kaushan+Script');
+        document.head.appendChild(link);
+        document.body.style = 'font-family: Kaushan Script, serif;';
+      })();
     </script>
   </body>
 </html>
