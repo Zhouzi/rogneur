@@ -8,7 +8,7 @@ Simple low level and opinionated cropper library.
 
 --
 
-* [Demo](https://gabinaureche.com/rogneur)
+* [Demo](http://gabinaureche.com/rogneur)
 * [Usage](#usage)
 * [Example](https://github.com/Zhouzi/rogneur/blob/gh-pages/index.html)
 * [Documentation](#documentation)
