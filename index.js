@@ -239,10 +239,14 @@
      * Update the container's size in state.
      * Note: we need the container's width and height for some calculations.
      * So this function should be called when the container's size changes.
+     *
+     * @returns {{crop: crop, move: move, load: load, updateContainerSize: updateContainerSize, subscribe: subscribe, setState: setState, getState: getState}}
      */
     function updateContainerSize () {
       var rect = container.getBoundingClientRect()
       setState({ container: { width: rect.width, height: rect.height } })
+
+      return this
     }
 
     /**
