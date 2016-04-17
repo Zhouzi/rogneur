@@ -4,7 +4,9 @@ Simple low level and opinionated cropper library.
 
 * Simple ES5 vanilla JavaScript, no dependencies, no bloat.
 * Straight to the point, almost no options.
-* Doesn't make much assumptions and leave the power in your hands.
+* Doesn't make any assumptions about how it's used and leave the power into your hands.
+
+--
 
 * [Demo](https://gabinaureche.com/rogneur)
 * [Usage](#usage)
@@ -27,13 +29,13 @@ Create a new cropper instance bound to container.
 
 Return the api as described below.
 
-### crop()
+### .crop()
 
 Use a canvas to crop the image according to its position/zoom.
 
 Return the image as a data url string.
 
-### move(position)
+### .move(position)
 
 Move the image to given position.
 
@@ -41,7 +43,7 @@ Move the image to given position.
 
 Return the api.
 
-### load(url)
+### .load(url)
 
 Load an image in the cropper.
 Note: an event is published when it the loading starts and ends, see [subscribe](#subscribe).
@@ -50,20 +52,20 @@ Note: an event is published when it the loading starts and ends, see [subscribe]
 
 Return the api.
 
-### updateContainerSize()
+### .updateContainerSize()
 
 rogneur relies on the size of the container that is calculated once so if it changes, you'll need to update it.
 
 Return the api.
 
-### subscribe(event, callback)
+### .subscribe(event, callback)
 
 Add a callback to be called when event occurs.
 
 1. **event**: the name of the event to subscribe to, one of: `LOAD_START`, `LOAD_END`.
 2. **callback**: a function to call when the event is published.
 
-### setState(state)
+### .setState(state)
 
 Used to set the internal rogneur instance's state.
 Can be used to update the `position.x`, `position.y` and `zoom` but should be used with caution otherwise.
@@ -73,11 +75,11 @@ See [getState](#getstate) to have a look at the state's shape.
 
 Return the api.
 
-### getState()
+### .getState()
 
 Return the rogneur instance's state.
 
-```json
+```
 {
   "position": {
     "x": Number,
